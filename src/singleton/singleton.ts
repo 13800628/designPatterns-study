@@ -20,6 +20,7 @@ export class ConfigurationManager {
     return ConfigurationManager.instance;
   }
 
+  // 各種処理
   public get(key: string): string | undefined {
     return this.config.get(key);
   }

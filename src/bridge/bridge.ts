@@ -40,11 +40,13 @@ export class Radio implements Device {
 // ここから利用する側の抽象クラス
 /**
  * 橋渡しとしてのクラス、実装側を受け取り抽象側の処理を
+ * ここがこのデザインパターンの肝となる部分で、
  */
 export class RemoteControl {
+  // ここで実装側のインスタンスを受け取る(橋渡しになる)
   constructor(protected device: Device) {}
 
-  // 有効かの切り替え
+  // 実装側のメソッドを呼び出すような形になるので、利用側/実装側のような入れ子構造になり、それぞれに抽象、具象が存在することになる。
   public togglePower(): void {
     if (this.device.isEnabled()) {
       this.device.disable();
@@ -62,9 +64,15 @@ export class RemoteControl {
   }
 }
 
+// RemoteControlを継承した具象クラス
 export class AdvancedRemoteControl extends RemoteControl {
   public mute(): void {
     console.log("ミュート");
     this.device.setVolume(0);
+  }
+
+  public boostVolume(): void {
+    console.log("UP");
+    this.device.setVolume(100);
   }
 }
